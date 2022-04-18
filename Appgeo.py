@@ -3,7 +3,7 @@
 # ##### El Hadji SOW ,DAKAR 2019  ###################################
 # ####### AppGeo is a piece of software that converts coordinates ###
 # ###################################################################
-# ######################## import ###################################
+# ######################## imports ###################################
 from tkinter import *
 from math import *
 from tkinter import messagebox
@@ -249,78 +249,80 @@ def convertir_degre(val):
 def displayfilepoint():
     points_path = 'appgeofichier.kml'  # file name
     try:
-        try:
-            with open(fichier, 'r') as f:
 
-                fiche_point = simplekml.Kml()
+        with open(fichier, 'r') as f:
 
-                for lines in f:
-                    t1 = nav_sp1.get()
-                    t2 = nav_sp2.get()
-                    t3 = nav_sp3.get()
-                    valu = re.split('[{}{}{}]+'.format(spteur[t1], spteur[t2], spteur[t3]), lines.strip())
-                    if is_float(valu[1]) and is_float(valu[2]):
-                        valu[1] = float(valu[1])
-                        valu[2] = float(valu[2])
-                        if idx == 7:
-                            valux = nav_ellipsoide_f7(valu[1], valu[2])
-                            if not valux:
-                                messagebox.showerror(title='Erreur',
-                                                     message='AppGéo a rencontré un problème de fichier!')
+            fiche_point = simplekml.Kml()
+
+            for lines in f:
+                t1 = nav_sp1.get()
+                t2 = nav_sp2.get()
+                t3 = nav_sp3.get()
+                valu = re.split('[{}|{}|{}]+'.format(spteur[t1], spteur[t2], spteur[t3]), lines.strip())
+                if is_float(valu[1]) and is_float(valu[2]):
+                    valu[1] = float(valu[1])
+                    valu[2] = float(valu[2])
+                    if idx == 7:
+                        valux = nav_ellipsoide_f7(valu[1], valu[2])
+                        if not valux:
+                            messagebox.showerror(title='Erreur',
+                                                 message='AppGéo a rencontré un problème de fichier!')
 
 
-                            else:
-                                fiche_point.newpoint(name=valu[0],
-                                                     coords=[(convertir_degre(valux[0]), convertir_degre(valux[1]))])
+                        else:
+                            fiche_point.newpoint(name=valu[0],
+                                                 coords=[(convertir_degre(valux[0]), convertir_degre(valux[1]))])
 
-                        elif idx == 8:
-                            valux = nav_ellipsoide_f8(valu[1], valu[2])
-                            if not valux:
-                                messagebox.showerror(title='Erreur',
-                                                     message='AppGéo a rencontré un probleme de fichier!')
+                    elif idx == 8:
+                        valux = nav_ellipsoide_f8(valu[1], valu[2])
+                        if not valux:
+                            messagebox.showerror(title='Erreur',
+                                                 message='AppGéo a rencontré un probleme de fichier!')
 
-                            else:
-                                fiche_point.newpoint(name=valu[0],
-                                                     coords=[(convertir_degre(valux[0]), convertir_degre(valux[1]))])
+                        else:
+                            fiche_point.newpoint(name=valu[0],
+                                                 coords=[(convertir_degre(valux[0]), convertir_degre(valux[1]))])
 
-                    else:
-                        valu[1] = re.split('=', valu[1])
-                        valu[2] = re.split('=', valu[2])
-                        if len(valu[1]) > 1 and len(valu[2]) > 1:
-                            if is_float(valu[1][1]) and is_float(valu[2][1]):
-                                if idx == 7:
-                                    valux = nav_ellipsoide_f7(valu[1][1], valu[2][1])
-                                    if not valux:
-                                        pass
-                                    else:
-                                        fiche_point.newpoint(name=valu[0],
-                                                             coords=[(convertir_degre(valux[0]),
-                                                                      convertir_degre(valux[1]))])
+                else:
+                    valu[1] = re.split('=', valu[1])
+                    valu[2] = re.split('=', valu[2])
+                    if len(valu[1]) > 1 and len(valu[2]) > 1:
+                        if is_float(valu[1][1]) and is_float(valu[2][1]):
+                            if idx == 7:
+                                valux = nav_ellipsoide_f7(valu[1][1], valu[2][1])
+                                if not valux:
+                                    pass
+                                else:
+                                    fiche_point.newpoint(name=valu[0],
+                                                         coords=[(convertir_degre(valux[0]),
+                                                                  convertir_degre(valux[1]))])
 
-                                elif idx == 8:
-                                    valux = nav_ellipsoide_f8(valu[1][1], valu[2][1])
-                                    if not valux:
-                                        messagebox.showerror(title='Erreur',
-                                                             message='AppGéo a rencontré un probleme de fichier!')
-                                    else:
+                            elif idx == 8:
+                                valux = nav_ellipsoide_f8(valu[1][1], valu[2][1])
+                                if not valux:
+                                    messagebox.showerror(title='Erreur',
+                                                         message='AppGéo a rencontré un probleme de fichier!')
+                                else:
 
-                                        fiche_point.newpoint(name=valu[0],
-                                                             coords=[
-                                                                 (
-                                                                 convertir_degre(valux[0]), convertir_degre(valux[1]))])
-                            else:
+                                    fiche_point.newpoint(name=valu[0],
+                                                         coords=[
+                                                             (
+                                                             convertir_degre(valux[0]), convertir_degre(valux[1]))])
+                        else:
 
-                                pass
+                            pass
 
-        except FileNotFoundError:
-            messagebox.showerror(title='!', message='Erreur de fichier')
-            try:
-                fiche_point.save(points_path)
-                os.startfile(points_path)  # it opens the file in google earth
-            except:
-                messagebox.showerror(title='!', message='Appgeo n\'a pas trouvé GOOGLE EARTH')
-    except:
+    except FileNotFoundError:
+        messagebox.showerror(title='!', message='Erreur de fichier')
+    except (ValueError,IndexError):
         messagebox.showerror(title='!', message='Choisissez les bons séparateurs \n et la bonne disposition!')
+
+    try:
+        fiche_point.save(points_path)
+        os.startfile(points_path)  # it opens the file in google earth
+    except:
+         messagebox.showerror(title='!', message='Appgeo n\'a pas trouvé GOOGLE EARTH')
+
 
 
 matricul = 0
@@ -377,10 +379,10 @@ idx = 0
 
 
 def display(nam, lon, lat):
+    point_path = 'appgeodoc.kml'  # file name
     try:
         fichier_point = simplekml.Kml()  # create a  kml file
         fichier_point.newpoint(name=nam, coords=[(lon, lat)])  # create new point in the file
-        point_path = 'appgeodoc.kml'  # file name
 
         fichier_point.save(point_path)
         os.startfile(point_path)  # it opens the file in google earth

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
-    <Document id="1">
-        <Placemark id="3">
-            <name>fg</name>
-            <Point id="2">
-                <coordinates>6.830397081617677,14.081814707573203,0.0</coordinates>
+    <Document id="1119">
+        <Placemark id="1121">
+            <name>pip</name>
+            <Point id="1120">
+                <coordinates>-16.927287803744456,15.12149827552688,0.0</coordinates>
             </Point>
         </Placemark>
     </Document>
